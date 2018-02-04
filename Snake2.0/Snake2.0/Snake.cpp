@@ -9,13 +9,15 @@ Snake::Snake(int x, int y) : GameObject(x, y) {
 
 Snake::~Snake(){ }
 
-
+//Apple을 습득했을 때의 행동.
+//hungry 변수를 false로 초기화 하고, 길이를 증가시킨다.
 void Snake::GetApple() {
 
 	hungry = false;
-
+	++length;
 }
 
+//뱀이 자신의 몸과 충돌했는지 검사하는 메소드.
 bool Snake::IsBitten() {
 
 	auto lt = body.begin();
@@ -28,6 +30,10 @@ bool Snake::IsBitten() {
 
 }
 
+//뱀의 움직임에 대해 정의해놓은 메소드.
+//진행방향의 반대방향으로는 움직이지 못하게 해놓음
+//사과를 습득하지 않은 경우 맨끝부분을 지우고,
+//사과를 습득한 경우 그대로 냅둔다.
 void Snake::Move(const Direction direction) {
 
 	switch (direction) {
@@ -70,6 +76,8 @@ void Snake::Move(const Direction direction) {
 	
 }
 
+//키입력을 하지 않고있을 때의 동작을 정의한 메소드.
+//Move()와 거의 동일하다.
 void Snake::MoveIdle() {
 
 	switch (this->direction) {
@@ -95,7 +103,7 @@ void Snake::MoveIdle() {
 		hungry = true;
 }
 
-
+//뱀을 화면에 출력하기 위한 메소드.
 void Snake::RenderSnake() {
 
 	auto lt = body.begin();
@@ -112,19 +120,19 @@ void Snake::RenderSnake() {
 
 }
 
-
+//뱀의 속성들을 출력한다.
 void Snake::Init() {
 
-	direction = Direction::RIGHT;
-	hungry = true;
-	length = 2;
+	direction = Direction::RIGHT;		//뱀의 처음 진행방향 정의(오른쪽)
+	hungry = true;	
+	length = 2;		//뱀의 길이 : 2
 	category = "snake";
 	body.push_back(position);
 	body.emplace_back(Point{ position.x - 1, position.y });
 
 }
 
-
+//뱀의 끝부분을 지운다.
 void Snake::EraseTail() {
 
 	GotoXy(body.back().x, body.back().y);
@@ -132,6 +140,7 @@ void Snake::EraseTail() {
 	body.pop_back();
 
 }
+
 
 void Snake::MoveUp() {
 	

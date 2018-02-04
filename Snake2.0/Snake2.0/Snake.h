@@ -1,4 +1,9 @@
-#pragma once
+//Snake.h
+//Player가 플레이 할 Snake의 속성과 동작을 정의한 클래스
+
+#ifndef SNAKE_H
+#define SNAKE_H
+
 #include "stdafx.h"
 #include "GameObject.h"
 
@@ -14,6 +19,7 @@ public:
 	void MoveIdle();
 	void RenderSnake();
 	virtual void Init() override;
+	const int GetLength() const { return length; }
 
 private:
 	void EraseTail();
@@ -30,3 +36,5 @@ private:
 	
 
 };
+
+#endif SNAKE_H

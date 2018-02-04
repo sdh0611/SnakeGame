@@ -1,9 +1,10 @@
-#pragma once
+#ifndef GAMEMANAGER_H
+#define GAMEMANAGER_H
 #include "stdafx.h"
 
+//Class 전방선언
 class Snake;
 class Apple;
-class Obstacle;
 
 class GameManager {
 public:
@@ -19,17 +20,23 @@ private:
 private:
 	void PlayerControl();
 	void RenderMap();
-	void ObstcleGen();
 	void IsCollsion();
+	void SpeedManager();
 	void PrintUI();
+	void PrintLOGO();
+	void PrintTitle();
+	bool IsContinue();
 
 private:
 	bool run;
 	bool dead;
-	bool isAppleGen;
+	int gameSpeed;
 	int totalScore;
 	int highScore;
+	int scoreWeight;
 	Snake* player;
 	Apple* apple;
 
 };
+
+#endif
