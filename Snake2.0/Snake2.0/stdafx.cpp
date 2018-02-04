@@ -4,7 +4,7 @@
 
 #include "stdafx.h"
 
-bool Point::operator=(const Point& other) {
+bool Point::operator== (const Point& other) {
 
 	if (other.x == this->x && other.y == this->y)
 		return true;
@@ -16,6 +16,15 @@ void GotoXy(int x, int y) {
 
 	COORD pos = { 2 * x, y };
 	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
+
+}
+
+void HideCursor() {
+
+	CONSOLE_CURSOR_INFO info;
+	GetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE), &info);
+	info.bVisible = false;
+	SetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE), &info);
 
 }
 

@@ -8,15 +8,15 @@ public:
 	~Snake();
 
 public:
-	bool GetApple();
+	void GetApple();
 	bool IsBitten();
 	void Move(const Direction direction);
-	const Point& GetTailPosition();
+	void MoveIdle();
 	void RenderSnake();
 	virtual void Init() override;
 
 private:
-	void UpdateTails();
+	void EraseTail();
 	void MoveUp();
 	void MoveDown();
 	void MoveRight();

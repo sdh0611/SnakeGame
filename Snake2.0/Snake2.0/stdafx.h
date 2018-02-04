@@ -9,6 +9,9 @@
 #include <list>
 #include <cstdlib>
 #include <ctime>
+#include <string>
+#include <thread>
+#include <vector>
 #include <Windows.h>
 
 #define KEY_DOWN(vk_code) ( (GetAsyncKeyState(vk_code) & 0x8000)?1:0)
@@ -20,7 +23,7 @@
 struct Point {
 	int x;
 	int y;
-	bool operator=(const Point& other);
+	bool operator==(const Point& other);
 };
 
 enum class Direction{ 
@@ -29,7 +32,7 @@ enum class Direction{
 
 
 void GotoXy(int x, int y);
-
+void HideCursor();
 
 
 // TODO: 프로그램에 필요한 추가 헤더는 여기에서 참조합니다.

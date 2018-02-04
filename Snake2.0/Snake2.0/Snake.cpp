@@ -10,20 +10,69 @@ Snake::Snake(int x, int y) : GameObject(x, y) {
 Snake::~Snake(){ }
 
 
-bool Snake::GetApple() {
+void Snake::GetApple() {
 
-	
+	hungry = false;
 
 }
 
 bool Snake::IsBitten() {
 
+	auto lt = body.begin();
+
+	for (++lt; lt != body.end(); ++lt) 
+		if (position == *lt) 
+			return true;
+	
+	return false;
 
 }
 
 void Snake::Move(const Direction direction) {
 
 	switch (direction) {
+	case Direction::DOWN:
+		if (this->direction == Direction::UP) {
+			MoveIdle();
+			return;
+		}
+		MoveDown();
+		break;
+	case Direction::UP:
+		if (this->direction == Direction::DOWN) {
+			MoveIdle();
+			return;
+		}
+		MoveUp();
+		break;
+	case Direction::RIGHT:
+		if (this->direction == Direction::LEFT) {
+			MoveIdle();
+			return;
+		}
+		MoveRight();
+		break;
+	case Direction::LEFT:
+		if (this->direction == Direction::RIGHT){
+			MoveIdle();
+			return;
+		}
+		MoveLeft();
+		break;
+	}
+
+	RenderSnake();
+
+	if (hungry)
+		EraseTail();
+	else
+		hungry = true;
+	
+}
+
+void Snake::MoveIdle() {
+
+	switch (this->direction) {
 	case Direction::DOWN:
 		MoveDown();
 		break;
@@ -38,30 +87,48 @@ void Snake::Move(const Direction direction) {
 		break;
 	}
 
+	RenderSnake();
+
+	if (hungry)
+		EraseTail();
+	else
+		hungry = true;
 }
+
 
 void Snake::RenderSnake() {
 
-	for (auto lt = body.begin(); lt != body.end(); ++lt) {
-		Gotoxy(*(*lt).x, *(*lt).y, );
+	auto lt = body.begin();
+	
+	//¸Ó¸® Render
+	GotoXy(lt->x, lt->y);
+	puts("¡Ü");
+
+	//²¿¸® Render
+	for (++lt; lt != body.end(); ++lt) {
+		GotoXy(lt->x, lt->y);
+		puts("¡Û");
 	}
 
 }
+
 
 void Snake::Init() {
 
 	direction = Direction::RIGHT;
 	hungry = true;
 	length = 2;
-	body.emplace_back(Point(position));
+	category = "snake";
+	body.push_back(position);
 	body.emplace_back(Point{ position.x - 1, position.y });
-
 
 }
 
-void Snake::UpdateTails() {
 
-	body.push_front(position);
+void Snake::EraseTail() {
+
+	GotoXy(body.back().x, body.back().y);
+	puts("  ");
 	body.pop_back();
 
 }
@@ -70,7 +137,7 @@ void Snake::MoveUp() {
 	
 	direction = Direction::UP;
 	position.y--;
-	UpdateTails();
+	body.push_front(position);
 
 }
 
@@ -78,7 +145,7 @@ void Snake::MoveDown() {
 
 	direction = Direction::DOWN;
 	position.y++;
-	UpdateTails();
+	body.push_front(position);
 
 }
 
@@ -86,7 +153,7 @@ void Snake::MoveRight() {
 
 	direction = Direction::RIGHT;
 	position.x++;
-	UpdateTails();
+	body.push_front(position);
 
 }
 
@@ -94,7 +161,7 @@ void Snake::MoveLeft() {
 
 	direction = Direction::LEFT;
 	position.x--;
-	UpdateTails();
+	body.push_front(position);
 
 }
 
